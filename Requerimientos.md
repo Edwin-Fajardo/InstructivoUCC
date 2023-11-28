@@ -4,6 +4,10 @@ Requerimientos
 Ordenador con Windows 10 o superior
 -----------------------------------
 
+Las pruebas realizadas con Windows 7 han fallado en requerimientos nuevos que se necesitan para que la aplicación funcione. Se recomienda Windows 10.
+
+Si, en cambio, se decide usar otro sistema operativo, se han hecho pruebas con éxito sobre Debian 10, 11 y 12, Ubuntu 22.04 y MacOS 13.
+
 Editor de texto, de preferencia: Visual Studio Code
 ---------------------------------------------------
 
