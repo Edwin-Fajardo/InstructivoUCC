@@ -2,22 +2,22 @@ Procedimiento para desarrollo de taller
 =======================================
 
 Nota: Si descargó el proyecto desde la versión portable en la nube, entonces
-puedes iniciar en el paso 6.
+puede iniciar en el paso [Configuración de parámetros](#configuración-de-parámetros).
 
-Paso 1: Instalación de XAMPP
+Instalación de XAMPP
 --------------------
 
 Instale XAMPP para Windows con soporte para PHP 8.2
 
 Enlace de descarga de XAMPP: <https://www.apachefriends.org/download.html>
 
-Paso 2: Instalación de Git para Windows
----------------------------------------
+Instalación de Git para Windows
+-------------------------------
 
 Enlace de descarga de Git para Windows: <https://git-scm.com/download/win>
 
-Paso 3: Clonación de repositorio
--------------------
+Clonación de repositorio
+------------------------
 
 Modo HTTP:
 
@@ -33,7 +33,7 @@ cd carpeta\vacía\del\proyecto
 git clone git@github.com:Edwin-Fajardo/InstructivoUCC.git .
 ```
 
-Paso 4: Carga de base de datos
+Carga de base de datos
 ----------------------
 
 Inicie los servicios de XAMPP (Apache y Mysql), y seguidamente, ingrese a <http://127.0.0.1/phpmyadmin>.
@@ -46,18 +46,45 @@ En el proyecto clonado, busque el archivo ```db/mysql/db_structure.sql```, y imp
 
 Asimismo, importe el archivo ```db/mysql/initial_data.sql```
 
-Paso 5: Configuración de acceso a base de datos
------------------------------------------------
+Configuración de acceso a base de datos
+---------------------------------------
 
 En el proyecto, copie el archivo ```default_config.php``` a un nuevo archivo llamado ```config.php```.
 
 Configure los parámetros de acuerdo con la base de datos creada.
 
-Paso 6: Configuración de parámetros de la App
----------------------------------------------
+Configuración de parámetros
+---------------------------
 
-Paso 7: Agregar una nueva tabla
--------------------------------
+En el fichero ```app_info.json``` encontrará información sobre la aplicación. Cambie los parámetros siguientes:
 
-Paso 8: Agregar un nuevo módulo en el código
---------------------------------------------
+Agregar una nueva tabla
+-----------------------
+
+Desde PHPMyAdmin, agregue una tabla llamada **clientes** con los siguientes campos:
+|Campo|Tipo|
+|-----|----|
+|cliente_id|varchar(128)|
+
+Alternativamente, puede utilizar el comando desde la sección de [Comandos MySQL](CodigoMySQL).
+
+Agregar una clase en el ORM para control de la tabla
+----------------------------------------------------
+
+Agregar un nuevo módulo en el código PHP
+----------------------------------------
+
+Crear las vistas respectivas en HTML
+------------------------------------
+
+Agregar un elemento y sus permisos en la base de datos
+------------------------------------------------------
+
+Agregar el acceso del menú
+--------------------------
+
+Pruebas
+-------
+
+Agregar un ID de entidad
+------------------------
