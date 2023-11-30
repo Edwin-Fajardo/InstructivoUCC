@@ -3,7 +3,7 @@ Plantillas de código HTML
 
 El presente documento incluye bloques de código básicos para crear las vistas principales de un CRUD. En el código también encontrará elementos a renderizar, como se detalla a continuación:
 
-> **{{ variable }}**: El framework sustituirá esta expresión por el valor de una variable PHP dentro del arreglo ```$this->data```.  
+> **\{\{ variable \}\}**: El framework sustituirá esta expresión por el valor de una variable PHP dentro del arreglo ```$this->data```.  
 > **\[[ arreglo ]]** y **\[[/ arreglo ]]**: Todo lo que se encuentre dentro de estas dos expresiones se sustituirá por los valores dentro de un arreglo asociativo de dos dimensiones.  
 > **_(Expresión)**: Todo lo que se encuentre en la expresión será traducido por gettext.  
 > **\<!-- comentario -->** y **\<!-- /comentario -->**: El contenido de este bloque se ocultará en determinadas condiciones.
