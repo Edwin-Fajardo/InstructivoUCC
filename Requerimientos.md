@@ -22,7 +22,7 @@ Ejecutar Block de Notas como Administrador, y luego, abrir el archivo: ```c:\Win
 Al final del archivo se debe aregar la siguiente línea:
 
 ```text
-127.0.0.1    installer.tallerucc.edu.ni test1.tallerucc.edu.ni test2.tallerucc.edu.ni
+127.0.0.1    installer.tallerucc.ni test1.tallerucc.ni test2.tallerucc.ni
 ```
 
 Git para Windows

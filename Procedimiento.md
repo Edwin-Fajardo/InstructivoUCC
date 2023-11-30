@@ -23,14 +23,14 @@ Modo HTTP:
 
 ```bat
 cd carpeta\vacía\del\proyecto
-git clone https://github.com/Edwin-Fajardo/InstructivoUCC.git .
+git clone https://github.com/RedTeleinformatica/BlackPHP.git .
 ```
 
 Modo SSH:
 
 ```bat
 cd carpeta\vacía\del\proyecto
-git clone git@github.com:Edwin-Fajardo/InstructivoUCC.git .
+git clone git@github.com:RedTeleinformatica/BlackPHP.git .
 ```
 
 Carga de base de datos
@@ -58,21 +58,56 @@ Configuración de parámetros
 
 En el fichero ```app_info.json``` encontrará información sobre la aplicación. Cambie los parámetros siguientes:
 
+Instalación para una entidad
+----------------------------
+
+Desde el navegador, acceda a <http://test1.tallerucc.ni>. Esta acción, cuando la entidad aún no existe, lo dirigirá a la vista de inicio de sesión de instalador.
+
+Acceda con las siguientes credenciales:  
+Usuario: **admin**  
+Contraseña: **instaladorUCC**
+
+Llene los datos con las indicaciones que se darán en el momento.
+
 Agregar una nueva tabla
 -----------------------
 
+Para el óptimo funcionamiento del Framework, se requiere que una tabla _entidad_ contenga en su estructura, los campos siguientes:
+
+**Llave primaria**: (No importa el nombre).  
+**Id de la entidad**: (entity_id) servirá para identificar la entidad (empresa, negocio, organización) a la que pertenece el registro.  
+**Usuario creador**: (creation_user) Id del usuario que creó el registro.  
+**Fecha y hora de creación**: (creation_time).  
+**Usuario editor**: (edition_user) Id del usuario que hizo la última modificación en el registro.  
+**Fecha y hora de edición**: (edition_time) Fecha y hora de la última modificación en el registro.  
+**Estado**: (status), por defecto 1, este campo puede ser utilizado con valores distintos, pero se entenderá que el valor cero (o nulo en algunos casos), significa que el elemento ha sido eliminado.
+
 Desde PHPMyAdmin, agregue una tabla llamada **clientes** con los siguientes campos:
-|Campo|Tipo|
-|-----|----|
-|cliente_id|varchar(128)|
+|Campo|Tipo|Longitud|
+|-----|----|--------|
+|cliente_id|int||
+|entity_id|int||
+|nombre|varchar|128|
+|direccion|tinytext||
+|telefono|varchar|16|
+|fecha_nacimiento|date||
+|creation_user|int||
+|creation_time|datetime||
+|edition_user|int||
+|edition_time|datetime||
+|status|tinyint||
 
 Alternativamente, puede utilizar el comando desde la sección de [Comandos MySQL](CodigoMySQL).
 
 Agregar una clase en el ORM para control de la tabla
 ----------------------------------------------------
 
+En la carpeta ```models/ORM/```, agregue un archivo llamado ```clientesModel.php```, con el código de acuerdo con el ejemplo.
+
 Agregar un nuevo módulo en el código PHP
 ----------------------------------------
+
+En la carpeta ```controllers```, cree un fichero con el nombre ```Clientes.php```, con el código de la clase controlador desde el ejemplo.
 
 Crear las vistas respectivas en HTML
 ------------------------------------
@@ -85,6 +120,3 @@ Agregar el acceso del menú
 
 Pruebas
 -------
-
-Agregar un ID de entidad
-------------------------

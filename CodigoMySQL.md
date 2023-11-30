@@ -27,6 +27,7 @@ Creación de tabla
 ```sql
 CREATE TABLE `clientes` (
   `cliente_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Llave primaria',
+  `entity_id` INT NOT NULL COMMENT 'ID de la entidad',
   `nombre` VARCHAR(128) NOT NULL COMMENT 'Nombre del cliente',
   `direccion` TINYTEXT NOT NULL COMMENT 'Dirección del cliente',
   `telefono` VARCHAR(16) NOT NULL COMMENT 'Teléfono del cliente',
@@ -40,8 +41,18 @@ CREATE TABLE `clientes` (
 ) ENGINE = InnoDB COMMENT = 'Registro de clientes';
 ```
 
+Relacionar tabla clientes con tabla entidades
+---------------------------------------------
+
+```sql
+ALTER TABLE `clientes` ADD CONSTRAINT `cliente_entidad` FOREIGN KEY (`entity_id`) REFERENCES `entities`(`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+```
+
 Inserción de un módulo nuevo
 ----------------------------
+
+```sql
+```
 
 Inserción de un elemento nuevo
 ------------------------------
