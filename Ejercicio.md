@@ -9,14 +9,19 @@ En el proyecto realizado, se requiere que el registro de clientes también captu
 Pasos
 -----
 
-- Aregar un campo ```cedula``` en la tabla.
+- Aregar un campo ```cedula``` en la tabla. (Usando el comando, o desde PHPMyAdmin).
+
+```sql
+ALTER TABLE `clientes` ADD `cedula` VARCHAR(16) NOT NULL AFTER `nombre`;
+```
+
 - Agregar la propiedad en la clase ORM.
 
 ```php
   private $cedula;
 ```
 
-- Agregar los respectivos métodos get y set
+- Agregar los respectivos métodos get y set en la clase del ORM
 
 ```php
   public function getCedula()
@@ -36,7 +41,7 @@ Pasos
 ```html
 <div class="form_entry">
   <label>C&eacute;dula:</label>
-  <input type="text" name="user_name" maxlength="16" class="update_input" required>
+  <input type="text" name="cedula" maxlength="16" class="update_input" required>
 </div>
 ```
 
@@ -59,7 +64,7 @@ Pasos
 - Agregar el campo en la tabla en la sección tbody
 
 ```html
-        <td>{{cedula}}</td>
+        <td>\{\{cedula\}\}</td>
 ```
 
 - Agregar el campo en el Excel
@@ -73,7 +78,7 @@ Pasos
 
 ```html
       <tr>
-        <td class="data_sheet_field">_(Nickname)</td>
-        <td>{{ nickname }}</td>
+        <td class="data_sheet_field">C&eacute;dula</td>
+        <td>\{\{ cedula \}\}</td>
       </tr>
 ```

@@ -17,10 +17,10 @@ Vista para lista de elementos
     <a href="#" class="filter_button phone_inline">
       <img src="public/images/filter.png" alt="_(Filter)">
     </a>
-    <a href="/{{ module }}/NewUser/">
+    <a href="/\{\{ module \}\}/METODO_NUEVO_REGISTRO/">
       <img src="public/images/add.png" alt="_(New user)">
     </a>
-    <a href="#" class="download_link" data-url="/{{ module }}/user_table_loader/Excel/">
+    <a href="#" class="download_link" data-url="/\{\{ module \}\}/METODO_DE_CARGA_DE_LISTA_loader/Excel/">
       <img src="public/images/excel.png" alt="_(Export to Excel)">
     </a>
     <a href="#" class="print_button" data-print=".data_viewer">
@@ -31,23 +31,23 @@ Vista para lista de elementos
     <input class="data_search" type="text" placeholder="_(Type a word for search)">
   </div>
 </div>
-{{ print_header }}
+\{\{ print_header \}\}
 <div class="content_viewer">
-  <table class="data_viewer" data-source="content" id="user_table">
+  <table class="data_viewer" data-source="content" id="METODO_DE_CARGA_DE_LISTA">
     <thead>
       <tr>
-        <th>_(User)</th>
-        <th>_(Complete name)</th>
-        <th class="pc_cell">_(Role)</th>
-        <th class="pc_cell">_(Last login)</th>
+        <th>Campo 1</th>
+        <th>Campo 2</th>
+        <th class="pc_cell">Campo 3</th>
+        <th class="pc_cell">Campo 4</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="template" data-id="{{user_id}}" data-alert="{{ module }}/user_details_loader/{{user_id}}/standalone/" data-title="_(User details)">
-        <td>{{nickname}}</td>
-        <td>{{user_name}}</td>
-        <td class="pc_cell">{{role_name}}</td>
-        <td class="pc_cell">{{last_login}}</td>
+      <tr class="template" data-id="\{\{llave_primaria\}\}" data-alert="\{\{ module \}\}/METODO_CARGA_DETALLES_loader/\{\{llave_primaria\}\}/standalone/" data-title="TITULO_DE_VENTANA">
+        <td>\{\{CAMPO_1\}\}</td>
+        <td>\{\{CAMPO_2\}\}</td>
+        <td class="pc_cell">\{\{CAMPO_3\}\}</td>
+        <td class="pc_cell">\{\{CAMPO_4\}\}</td>
       </tr>
     </tbody>
     <tfoot>
@@ -77,9 +77,9 @@ Formulario básico con botones guardar y cancelar.
 ```html
 <div class="content_viewer">
   <div class="form_content medium_form">
-    <form action="save_user" data-reset="{{ module }}/Users">
+    <form action="METODO_PARA_GUARDAR" data-reset="\{\{ module \}\}/METODO_LISTA">
       <div class="form_title">
-        _(Edit user)
+        _(TITULO_DE_VENTANA)
         <a class="close_form" href="#"><img src="public/images/close.png"></a>
       </div>
       <div class="form_body">
@@ -90,7 +90,7 @@ Formulario básico con botones guardar y cancelar.
       <div class="form_foot">
         <span class="button_group">
           <!-- edition -->
-          <button class="red_button delete_button" type="button" data-url="{{ module }}/delete_user/" data-next="{{ module }}/Users/">
+          <button class="red_button delete_button" type="button" data-url="\{\{ module \}\}/METODO_PARA_ELIMINAR/" data-next="\{\{ module \}\}/METODO_LISTA/">
             <img src="public/images/outline/delete.png" class="x-small_icon">
             _(Delete)
           </button>
@@ -126,7 +126,7 @@ Entrada oculta para edición
 ---------------------------
 
 ```html
-<input type="hidden" name="nombre_del_campo" class="update_input">
+<input type="hidden" name="NOMBRE_DEL_CAMPO" class="update_input">
 ```
 
 Entrada de texto
@@ -134,8 +134,8 @@ Entrada de texto
 
 ```html
 <div class="form_entry">
-  <label>_(Complete name):</label>
-  <input type="text" name="user_name" maxlength="64" class="update_input" required>
+  <label>ETIQUETA_DEL_CAMPO:</label>
+  <input type="text" name="NOMBRE_DEL_CAMPO" maxlength="64" class="update_input" required>
 </div>
 ```
 
@@ -144,8 +144,8 @@ Entrada de texto largo
 
 ```html
 <div class="form_entry">
-  <label>_(Address):</label>
-  <textarea name="customer_address"  maxlength="256" class="notes update_input"></textarea>
+  <label>ETIQUETA_DEL_CAMPO:</label>
+  <textarea name="NOMBRE_DEL_CAMPO"  maxlength="256" class="notes update_input"></textarea>
 </div>
 ```
 
@@ -156,8 +156,8 @@ Entrada con selector que se convertirá automáticamente en select2.
 
 ```html
 <div class="form_entry">
-  <label>_(Role)</label>
-  <select class="data_selector update_input" name="role_id" data-source="roles" data-search="none" data-placeholder="_(Select)"></select>
+  <label>ETIQUETA_DEL_CAMPO</label>
+  <select class="data_selector update_input" name="NOMBRE_DEL_CAMPO" data-source="ARREGLO_FUENTE" data-search="none" data-placeholder="_(Select)"></select>
 </div>
 ```
 
@@ -165,36 +165,36 @@ Vista de detalles
 -----------------
 
 ```html
-{{ print_header }}
+\{\{ print_header \}\}
 <div class="details_content">
   <!-- embedded -->
   <div class="details_title no_print">
-    _(User details)
+    TITULO_DE_VENTANA
     <a class="close_details" href="#"><img src="public/images/close.png"></a>
   </div>
   <!-- /embedded -->
   <div class="details_body">
     .
-    . Cuerpo de detalles
+    . CUERPO_DE_DETALLES
     .
   </div>
   <div class="details_users">
     <!-- created -->
-    _(Created by): {{ cr_user_name }}, _(timeon) {{ cr_time }}<br>
+    _(Created by): \{\{ cr_user_name \}\}, _(timeon) \{\{ cr_time \}\}<br>
     <!-- /created -->
     <!-- edited -->
-    _(Last edition by): {{ ed_user_name }}, _(timeon) {{ ed_time }}
+    _(Last edition by): \{\{ ed_user_name \}\}, _(timeon) \{\{ ed_time \}\}
     <!-- /edited -->
   </div>
   <div class="details_foot no_print">
     <span class="button_group">
       <!-- no_self -->
-      <button class="delete_button red_button" data-url="{{ module }}/delete_user" data-next="{{ module }}/Users">
+      <button class="delete_button red_button" data-url="\{\{ module \}\}/METODO_PARA_ELIMINAR" data-next="\{\{ module \}\}/METODO_LISTA">
         <img src="public/images/outline/delete.png" class="x-small_icon">
         _(Delete)
       </button>
       <!-- /no_self -->
-      <button class="blue_button link_button" data-href="{{ module }}/EditUser/{{ user_id }}/">
+      <button class="blue_button link_button" data-href="\{\{ module \}\}/METODO_PARA_EDITAR/\{\{ LLAVE_PRIMARIA \}\}/">
         <img src="public/images/outline/edit.png" class="x-small_icon">
         _(Edit)
       </button>
@@ -217,17 +217,12 @@ Tabla de detalles
 ```html
     <table class="data_sheet_table">
       <tr>
-        <td class="data_sheet_field">_(Nickname)</td>
-        <td>{{ nickname }}</td>
+        <td class="data_sheet_field">ETIQUETA_DEL_CAMPO</td>
+        <td>\{\{ NOMBRE_DEL_CAMPO \}\}</td>
       </tr>
-      <tr>
-        <td class="data_sheet_field">_(Complete name):</td>
-        <td>{{ user_name }}</td>
-      </tr>
-      <tr>
-        <td class="data_sheet_field">_(Role):</td>
-        <td>{{ role_name }}</td>
-      </tr>
+      .
+      . OTROS_CAMPOS
+      .
     </table>
 ```
 
@@ -235,24 +230,26 @@ Tabla anidada en vista de detalles
 ----------------------------------
 
 ```html
-    <p>_(Last sessions):</p>
+    <p>ETIQUETA_DE_LA_TABLA:</p>
     <table class="show_details_table">
       <thead>
         <th class="pc_cell">No.</th>
-        <th>_(Date)</th>
-        <th>_(Hour)</th>
-        <th class="pc_cell">IP</th>
-        <th>_(Browser)</th>
+        <th>ENCABEZADO_1</th>
+        <th>ENCABEZADO_2</th>
+        .
+        .
+        .
       </thead>
       <tbody>
-        [[ sessions ]]
+        [[ INDICE_DE_ARREGLO ]]
         <tr>
-          <td class="right pc_cell">{{ item }}</td>
-          <td>{{ session_date }}</td>
-          <td>{{ session_time }}</td>
-          <td class="pc_cell">{{ ip_address }}</td>
-          <td>{{ browser_name }}, {{ platform }}</td>
-        </tr>[[/ sessions ]]
+          <td class="right pc_cell">\{\{ num \}\}</td>
+          <td>\{\{ NOMBRE_CAMPO_1 \}\}</td>
+          <td>\{\{ NOMBRE_CAMPO_2 \}\}</td>
+          .
+          .
+          .
+        </tr>[[/ INDICE_DE_ARREGLO ]]
       </tbody>
     </table>
 ```

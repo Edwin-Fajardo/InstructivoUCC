@@ -6,7 +6,7 @@ Plantilla básica de una clase
 
 ```php
 <?php
-class NombreClase extends Controller
+class NOMBRE_CLASE extends Controller
 {
   /**
    * Constructor de la clase
@@ -57,15 +57,15 @@ Vista para lista de elementos
  * 
  * @return void
  */
-public function Users()
+public function METODO_VISTA_LISTA()
 {
-  $this->check_permissions("read", "users");
-  $this->view->data["title"] = _("Users");
+  $this->check_permissions("read", "NOMBRE_ELEMENTO");
+  $this->view->data["title"] = _("TITULO_DE_VISTA");
   $this->view->standard_list();
   $this->view->data["nav"] = $this->view->render("main/nav", true);
-  $this->view->data["print_title"] = _("Users");
+  $this->view->data["print_title"] = _("TITULO_DE_IMPRESION");
   $this->view->data["print_header"] = $this->view->render("print_header", true);
-  $this->view->data["content"] = $this->view->render("settings/user_list", true);
+  $this->view->data["content"] = $this->view->render("RUTA_DE_VISTA", true);
   $this->view->render('main');
 }
 ```
@@ -82,16 +82,16 @@ Carga de lista de elementos y descarga de Excel
  * 
  * @return void
  */
-public function user_table_loader($response = "JSON")
+public function METODO_CARGA_LISTA($response = "JSON")
 {
-  $this->check_permissions("read", "users");
+  $this->check_permissions("read", "NOMBRE_ELEMENTO");
   $data = Array();
-  $users = userDataModel::getAllArray();
-  foreach($users as $key => $user)
+  $items = userDataModel::getAllArray();
+  foreach($items as $key => $item)
   {
     # Tareas adicionales después de la consulta
   }
-  $data["content"] = $users;
+  $data["content"] = $items;
   if($response == "Excel")
   {
     $data["title"] = _("Users");
