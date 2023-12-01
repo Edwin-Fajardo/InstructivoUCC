@@ -288,26 +288,11 @@ public function save_user()
     return;
   }
 
-  $user_id = 0;
-  $user = usersModel::find($_POST["user_id"])
-    ->set(Array(
+  $user = usersModel::find($_POST["user_id"]);
+  $user->set(Array(
       "user_name" => $_POST["user_name"],
       "nickname" => $_POST["nickname"]
     ));
-  if(!empty($_POST["password"]))
-  {
-    $user->setPassword("HASH");
-    $user->setPasswordHash(password_hash($_POST["password"], PASSWORD_BCRYPT));
-  }
-  if(empty($user->getPassword()))
-  {
-    $user->setPassword("");
-    $user->setPasswordHash("");
-  }
-  if(!empty($_POST["role_id"]))
-  {
-    $user->setRoleId($_POST["role_id"]);
-  }
   $user->save();
   if(!empty($_POST["user_id"]))
   {

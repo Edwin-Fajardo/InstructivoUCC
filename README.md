@@ -15,6 +15,7 @@ Contenido
 4. [Plantillas HTML](CodigoHTML)
 5. [Comandos MySQL](CodigoMySQL)
 6. [Utilidades](Utilidades)
+7. [Ejercicio](Ejercicio)
 
 Presentado por:
 Edwin Fajardo
