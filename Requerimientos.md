@@ -8,11 +8,15 @@ Las pruebas realizadas con Windows 7 han fallado en requerimientos nuevos que se
 
 Si, en cambio, se decide usar otro sistema operativo, se han hecho pruebas con éxito sobre Debian 10, 11 y 12, Ubuntu 22.04 y MacOS 13.
 
-Editor de texto, de preferencia: Visual Studio Code
----------------------------------------------------
+Editor de texto
+---------------
 
-Navegador web, de preferencia: Google Chrome
---------------------------------------------
+De preferencia: Visual Studio Code.
+
+Navegador web
+-------------
+
+Cualquier navegador web. Preferiblemente Google Chrome.
 
 Configuración de dominios para diferentes pruebas
 -------------------------------------------------
@@ -27,5 +31,7 @@ Al final del archivo se debe aregar la siguiente línea:
 
 Git para Windows
 ----------------
+
+La instalación de Git es opcional.
 
 Enlace de descarga de git para Windows: <https://git-scm.com/download/win>

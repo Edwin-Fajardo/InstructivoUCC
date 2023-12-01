@@ -73,23 +73,258 @@ public function Users()
 Carga de lista de elementos y descarga de Excel
 -----------------------------------------------
 
+```php
+/**
+ * Cargar tabla de usuarios
+ * 
+ * Devuelve, en formato JSON o en un archivo Excel, la lista de usuarios.
+ * @param string $response El modo de respuesta (JSON o Excel)
+ * 
+ * @return void
+ */
+public function user_table_loader($response = "JSON")
+{
+  $this->check_permissions("read", "users");
+  $data = Array();
+  $users = userDataModel::getAllArray();
+  foreach($users as $key => $user)
+  {
+    # Tareas adicionales después de la consulta
+  }
+  $data["content"] = $users;
+  if($response == "Excel")
+  {
+    $data["title"] = _("Users");
+    $data["headers"] = Array(_("User"), _("Complete name"), _("Last login"));
+    $data["fields"] = Array("nickname", "user_name", "last_login");
+    excel::create_from_table($data, "Users_" . Date("YmdHis") . ".xlsx");
+  }
+  else
+  {
+    $this->json($data);
+  }
+}
+```
+
 Vista de detalles
 -----------------
+
+```php
+/**
+ * Detalles de usuario
+ * 
+ * Muestra una hoja con los datos del usuario y las últimas sesiones abiertas.
+ * @param int $user_id ID del usuario a consultar
+ * 
+ * @return void
+ */
+public function UserDetails($user_id)
+{
+  $this->check_permissions("read", "users");
+  $this->view->data["title"] = _("User details");
+  $this->view->standard_details();
+  $this->view->data["system_short_date"] = Date("d/m/Y");
+  $this->view->data["nav"] = $this->view->render("main/nav", true);
+  $this->view->data["content_id"] = "user_details";
+  $this->view->data["content"] = $this->view->render("content_loader", true);
+  $this->view->render('main');
+}
+```
 
 Carga de detalles
 -----------------
 
-Vista de formulario
--------------------
+```php
+/**
+ * Carga de detalles del usuario
+ * 
+ * Muestra una hoja con los detalles del usuario. Este método puede ser invocado por a través
+ * de UserDetails (embedded) y directamente para ser mostrado en un jAlert (standalone); por
+ * ejemplo, para el usuario con ID 1, se podría visitar:
+ * - Settings/UserDetails/1/ (embedded)
+ * - Settings/user_details_loader/1/standalone/ (standalone)
+ * @param int $user_id ID del usuario
+ * @param string $mode Modo en que se mostrará la vista
+ * 
+ * @return void
+ */
+public function user_details_loader($user_id = "", $mode = "embedded")
+{
+  $this->check_permissions("read", "users", $mode);
+  if(empty($user_id))
+  {
+    $user_id = $_POST["id"];
+  }
+  $user = userDataModel::findBy("user_id", $user_id)->toArray();
+  $this->view->data = array_merge($this->view->data, $user);
+  
+  $this->userActions($user);
+  $this->view->data["print_title"] = _("User details");
+  $this->view->data["print_header"] = $this->view->render("print_header", true);
+  if($mode == "standalone")
+  {
+    $this->view->data["title"] = _("User details");
+    $this->view->standard_details();
+    $this->view->add("styles", "css", Array(
+      'styles/standalone.css'
+    ));
+    $this->view->restrict[] = "embedded";
+    $this->view->data["content"] = $this->view->render('settings/user_details', true);
+    $this->view->render('clean_main');
+  }
+  else
+  {
+    $this->view->render("settings/user_details");
+  }
+}
+```
 
-Carga de elementos previos
---------------------------
+Vista de formulario para inserción
+----------------------------------
+
+```php
+/**
+ * Nuevo usuario
+ * 
+ * Muestra un formulario que permite registrar nuevos usuarios en el sistema, y asignarles
+ * permisos a diferentes módulos. Un usuario autorizado para registrar usuarios, sólo puede
+ * otorgar permisos que le han sido otorgados.
+ * 
+ * @return void
+ */
+public function NewUser()
+{
+  $this->check_permissions("create", "users");
+  $this->view->data["title"] = _("New user");
+  $this->view->standard_form();
+  $this->view->data["nav"] = $this->view->render("main/nav", true);
+  $this->view->restrict[] = "edition";
+  $this->view->data["content"] = $this->view->render("settings/user_form", true);
+  $this->view->render('main');
+}
+```
+
+Vista de formulario para edición
+--------------------------------
+
+```php
+/**
+ * Editar usuario
+ * 
+ * Permite editar los datos y los permisos de un usuario.
+ * 
+ * @return void
+ */
+public function EditUser($user_id)
+{
+  $this->check_permissions("update", "users");
+  $this->view->data["title"] = _("Edit user");
+  $this->view->standard_form();
+  $this->view->data["nav"] = $this->view->render("main/nav", true);
+  if($user_id == Session::get("user_id"))
+  {
+    $this->view->restrict[] = "no_self";
+  }
+  $this->view->restrict[] = "creation";
+  $modules = availableModulesModel::where("user_id", Session::get("user_id"))->orderBy("module_order")->getAllArray();
+  $this->view->data["modules"] = "";
+  foreach($modules as $module)
+  {
+    foreach($module as $key => $item)
+    {
+      $this->view->data[$key] = $item;
+    }
+    $this->view->data["methods"] = availableMethodsModel::where("user_id", Session::get("user_id"))
+    ->where("module_id", $module["module_id"])
+    ->orderBy("method_order")->getAllArray();
+    $this->view->data["modules"] .= $this->view->render("modules", true);
+  }
+  $this->view->data["content"] = $this->view->render("settings/user_form", true);
+  $this->view->render('main');
+}
+```
 
 Carga de datos a editar
 ----------------------
 
+```php
+/**
+ * Carga de datos de formulario.
+ * 
+ * Imprime, en formato JSON, los datos iniciales para la carga de formularios.
+ * 
+ * @return void
+ */
+public function load_form_data()
+{
+  $data = Array();
+  if($_POST["method"] == "EditUser")
+  {
+    $data["update"] = usersModel::find($_POST["id"])->toArray();
+  }
+  $this->json($data);
+}
+```
+
 Guardar un elemento
 -------------------
+
+```php
+/**
+ * Guardar usuario
+ * 
+ * Crea o actualiza un usuario en la base de datos, asignándole permisos a cada módulo
+ * y a cada método seleccionado en el formulario.
+ * 
+ * @return void
+ */
+public function save_user()
+{
+  $this->check_permissions(empty($_POST["user_id"]) ? "create" : "update", "users");
+  $data = Array("success" => false);
+  if(empty($_POST["user_name"]))
+  {
+    $this->json($data);
+    return;
+  }
+
+  $user_id = 0;
+  $user = usersModel::find($_POST["user_id"])
+    ->set(Array(
+      "user_name" => $_POST["user_name"],
+      "nickname" => $_POST["nickname"]
+    ));
+  if(!empty($_POST["password"]))
+  {
+    $user->setPassword("HASH");
+    $user->setPasswordHash(password_hash($_POST["password"], PASSWORD_BCRYPT));
+  }
+  if(empty($user->getPassword()))
+  {
+    $user->setPassword("");
+    $user->setPasswordHash("");
+  }
+  if(!empty($_POST["role_id"]))
+  {
+    $user->setRoleId($_POST["role_id"]);
+  }
+  $user->save();
+  if(!empty($_POST["user_id"]))
+  {
+    $this->setUserLog("update", "users", $user->getUserId());
+  }
+  else
+  {
+    $this->setUserLog("create", "users", $user->getUserId());
+  }
+  $data["success"] = true;
+  $data["title"] = _("Success");
+  $data["message"] = _("Changes have been saved");
+  $data["theme"] = "green";
+  $data["reload_after"] = true;
+  $this->json($data);
+}
+```
 
 Eliminar un elemento
 --------------------

@@ -69,9 +69,6 @@ Vista para lista de elementos
 </div>
 ```
 
-Filtros
--------
-
 Formulario
 ----------
 

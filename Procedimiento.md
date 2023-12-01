@@ -2,7 +2,7 @@ Procedimiento para desarrollo de taller
 =======================================
 
 Nota: Si descargó el proyecto desde la versión portable en la nube, entonces
-puede iniciar en el paso [Configuración de parámetros](#configuración-de-parámetros).
+puede iniciar en el paso [Configuración de parámetros](#configurar-datos-del-sistema).
 
 Instalación de XAMPP
 --------------------
@@ -53,8 +53,8 @@ En el proyecto, copie el archivo ```default_config.php``` a un nuevo archivo lla
 
 Configure los parámetros de acuerdo con la base de datos creada.
 
-Configuración de parámetros
----------------------------
+Configurar datos del sistema
+----------------------------
 
 En el fichero ```app_info.json``` encontrará información sobre la aplicación. Cambie los parámetros siguientes:
 

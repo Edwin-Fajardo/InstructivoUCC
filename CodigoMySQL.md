@@ -2,7 +2,7 @@ Comandos MySQL
 ==============
 
 Nota: Si descargó el proyecto desde la versión portable en la nube, entonces
-puede iniciar en el [Creación de tabla](#creación-de-tabla).
+puede iniciar en el [Creación de tabla](#crear-una-tabla).
 
 Creación de base de datos
 -------------------------
@@ -21,8 +21,8 @@ CREATE USER 'usuarioucc'@'localhost' IDENTIFIED BY 'MyJfDlNTWZ4zIS)Y';
 GRANT ALL ON tallerucc.* TO 'usuarioucc'@'localhost';
 ```
 
-Creación de tabla
------------------
+Crear una tabla
+---------------
 
 ```sql
 CREATE TABLE `clientes` (
