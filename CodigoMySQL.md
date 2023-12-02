@@ -52,10 +52,19 @@ Inserción de un módulo nuevo
 ----------------------------
 
 ```sql
+INSERT INTO `app_modules` (`module_id`, `module_name`, `module_url`, `module_icon`, `module_key`, `module_description`, `default_order`, `status`) VALUES (NULL, 'Clientes', 'Clientes', 'clientes_modulo', 'C', '1', '1', '1');
 ```
 
 Inserción de un elemento nuevo
 ------------------------------
 
+```sql
+INSERT INTO `app_elements` (`element_id`, `element_key`, `element_name`, `singular_name`, `element_gender`, `unique_element`, `module_id`, `method_name`, `is_creatable`, `is_updatable`, `is_deletable`, `table_name`) VALUES (NULL, 'clientes', 'Clientes', 'cliente', 'M', '0', '3', 'DetalleCliente', '1', '1', '1', 'clientes');
+```
+
 Inserción de un método nuevo
 ----------------------------
+
+```sql
+INSERT INTO `app_methods` (`method_id`, `module_id`, `method_name`, `method_url`, `method_icon`, `method_description`, `default_order`, `element_id`, `permissions`, `status`) VALUES (NULL, '3', 'Lista de clientes', 'ListaClientes', 'clientes_metodo', '', '1', '7', '8', '1');
+```

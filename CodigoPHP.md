@@ -94,10 +94,10 @@ public function METODO_CARGA_LISTA($response = "JSON")
   $data["content"] = $items;
   if($response == "Excel")
   {
-    $data["title"] = _("Users");
-    $data["headers"] = Array(_("User"), _("Complete name"), _("Last login"));
-    $data["fields"] = Array("nickname", "user_name", "last_login");
-    excel::create_from_table($data, "Users_" . Date("YmdHis") . ".xlsx");
+    $data["title"] = _("TITULO_EXCEL");
+    $data["headers"] = Array(... ENCABEZADOS ...);
+    $data["fields"] = Array(... CAMPOS ...);
+    excel::create_from_table($data, "NOMBRE_ARCHIVO_" . Date("YmdHis") . ".xlsx");
   }
   else
   {
@@ -111,21 +111,20 @@ Vista de detalles
 
 ```php
 /**
- * Detalles de usuario
+ * Detalles de un elemento
  * 
- * Muestra una hoja con los datos del usuario y las últimas sesiones abiertas.
- * @param int $user_id ID del usuario a consultar
+ * Muestra una hoja con los datos del un elemento.
+ * @param int $LLAVE_PRIMARIA ID del elemento a consultar
  * 
  * @return void
  */
-public function UserDetails($user_id)
+public function DetalleElemento($elemento_id)
 {
-  $this->check_permissions("read", "users");
-  $this->view->data["title"] = _("User details");
+  $this->check_permissions("read", "NOMBRE_ELEMENTO");
+  $this->view->data["title"] = _("TITULO_VISTA");
   $this->view->standard_details();
-  $this->view->data["system_short_date"] = Date("d/m/Y");
   $this->view->data["nav"] = $this->view->render("main/nav", true);
-  $this->view->data["content_id"] = "user_details";
+  $this->view->data["content_id"] = "METODO_CARGA_DETALLES(SIN loader)";
   $this->view->data["content"] = $this->view->render("content_loader", true);
   $this->view->render('main');
 }
@@ -136,45 +135,45 @@ Carga de detalles
 
 ```php
 /**
- * Carga de detalles del usuario
+ * Carga de detalles de un elemento
  * 
- * Muestra una hoja con los detalles del usuario. Este método puede ser invocado por a través
- * de UserDetails (embedded) y directamente para ser mostrado en un jAlert (standalone); por
- * ejemplo, para el usuario con ID 1, se podría visitar:
- * - Settings/UserDetails/1/ (embedded)
- * - Settings/user_details_loader/1/standalone/ (standalone)
- * @param int $user_id ID del usuario
+ * Muestra una hoja con los detalles de un elemento. Este método puede ser invocado por a través
+ * de DetallesElemento (embedded) y directamente para ser mostrado en un jAlert (standalone); por
+ * ejemplo, para el elemento con ID 1, se podría visitar:
+ * - Modulo/DetalleElemento/1/ (embedded)
+ * - Modulo/detalle_elemento_loader/1/standalone/ (standalone)
+ * @param int $LLAVE_PRIMARIA ID del elemento
  * @param string $mode Modo en que se mostrará la vista
  * 
  * @return void
  */
-public function user_details_loader($user_id = "", $mode = "embedded")
+public function detalle_elemento_loader($user_id = "", $mode = "embedded")
 {
-  $this->check_permissions("read", "users", $mode);
+  $this->check_permissions("read", "NOMBRE_ELEMENTO", $mode);
   if(empty($user_id))
   {
     $user_id = $_POST["id"];
   }
-  $user = userDataModel::findBy("user_id", $user_id)->toArray();
+  $user = MODELO_ELEMENTO::findBy("user_id", $user_id)->toArray();
   $this->view->data = array_merge($this->view->data, $user);
   
   $this->userActions($user);
-  $this->view->data["print_title"] = _("User details");
+  $this->view->data["print_title"] = _("TITULO_DE_IMPRESION");
   $this->view->data["print_header"] = $this->view->render("print_header", true);
   if($mode == "standalone")
   {
-    $this->view->data["title"] = _("User details");
+    $this->view->data["title"] = _("TITULO_DE_VENTANA");
     $this->view->standard_details();
     $this->view->add("styles", "css", Array(
       'styles/standalone.css'
     ));
     $this->view->restrict[] = "embedded";
-    $this->view->data["content"] = $this->view->render('settings/user_details', true);
+    $this->view->data["content"] = $this->view->render('RUTA_DE_VISTA', true);
     $this->view->render('clean_main');
   }
   else
   {
-    $this->view->render("settings/user_details");
+    $this->view->render("RUTA_DE_VISTA");
   }
 }
 ```
@@ -184,22 +183,22 @@ Vista de formulario para inserción
 
 ```php
 /**
- * Nuevo usuario
+ * Nuevo elemento
  * 
- * Muestra un formulario que permite registrar nuevos usuarios en el sistema, y asignarles
- * permisos a diferentes módulos. Un usuario autorizado para registrar usuarios, sólo puede
+ * Muestra un formulario que permite registrar nuevos elementos en el sistema, y asignarles
+ * permisos a diferentes módulos. Un usuario autorizado para registrar elementos, sólo puede
  * otorgar permisos que le han sido otorgados.
  * 
  * @return void
  */
-public function NewUser()
+public function NUEVO_ELEMENTO()
 {
   $this->check_permissions("create", "users");
-  $this->view->data["title"] = _("New user");
+  $this->view->data["title"] = _("TITULO_VISTA");
   $this->view->standard_form();
   $this->view->data["nav"] = $this->view->render("main/nav", true);
   $this->view->restrict[] = "edition";
-  $this->view->data["content"] = $this->view->render("settings/user_form", true);
+  $this->view->data["content"] = $this->view->render("RUTA_DE_VISTA", true);
   $this->view->render('main');
 }
 ```
@@ -209,37 +208,20 @@ Vista de formulario para edición
 
 ```php
 /**
- * Editar usuario
+ * Editar un elemento
  * 
- * Permite editar los datos y los permisos de un usuario.
+ * Permite editar los datos de un elemento.
  * 
  * @return void
  */
-public function EditUser($user_id)
+public function EDITAR_ELEMENTO($LLAVE_PRIMARIA)
 {
   $this->check_permissions("update", "users");
-  $this->view->data["title"] = _("Edit user");
+  $this->view->data["title"] = _("TITULO_DE_VISTA");
   $this->view->standard_form();
   $this->view->data["nav"] = $this->view->render("main/nav", true);
-  if($user_id == Session::get("user_id"))
-  {
-    $this->view->restrict[] = "no_self";
-  }
   $this->view->restrict[] = "creation";
-  $modules = availableModulesModel::where("user_id", Session::get("user_id"))->orderBy("module_order")->getAllArray();
-  $this->view->data["modules"] = "";
-  foreach($modules as $module)
-  {
-    foreach($module as $key => $item)
-    {
-      $this->view->data[$key] = $item;
-    }
-    $this->view->data["methods"] = availableMethodsModel::where("user_id", Session::get("user_id"))
-    ->where("module_id", $module["module_id"])
-    ->orderBy("method_order")->getAllArray();
-    $this->view->data["modules"] .= $this->view->render("modules", true);
-  }
-  $this->view->data["content"] = $this->view->render("settings/user_form", true);
+  $this->view->data["content"] = $this->view->render("RUTA_DE_VISTA", true);
   $this->view->render('main');
 }
 ```
@@ -258,7 +240,7 @@ Carga de datos a editar
 public function load_form_data()
 {
   $data = Array();
-  if($_POST["method"] == "EditUser")
+  if($_POST["method"] == "METODO_EDITAR")
   {
     $data["update"] = usersModel::find($_POST["id"])->toArray();
   }
@@ -271,36 +253,31 @@ Guardar un elemento
 
 ```php
 /**
- * Guardar usuario
+ * Guardar un elemento
  * 
- * Crea o actualiza un usuario en la base de datos, asignándole permisos a cada módulo
- * y a cada método seleccionado en el formulario.
+ * Crea o actualiza un elemento en la base de datos.
  * 
  * @return void
  */
-public function save_user()
+public function METODO_GUARDAR()
 {
-  $this->check_permissions(empty($_POST["user_id"]) ? "create" : "update", "users");
+  $this->check_permissions(empty($_POST["LLAVE_PRIMARIA"]) ? "create" : "update", "NOMBRE_ELEMENTO");
   $data = Array("success" => false);
-  if(empty($_POST["user_name"]))
-  {
-    $this->json($data);
-    return;
-  }
 
-  $user = usersModel::find($_POST["user_id"]);
-  $user->set(Array(
-      "user_name" => $_POST["user_name"],
-      "nickname" => $_POST["nickname"]
+  # Validaciones
+
+  $elemento = MODELO_ELEMENTO::find($_POST["LLAVE_PRIMARIA"]);
+  $elemento->set(Array(
+    # CAMPOS
     ));
-  $user->save();
-  if(!empty($_POST["user_id"]))
+  $elemento->save();
+  if(!empty($_POST["LLAVE_PRIMARIA"]))
   {
-    $this->setUserLog("update", "users", $user->getUserId());
+    $this->setUserLog("update", "NOMBRE_ELEMENTO", $user->getLLAVE_PRIMARIA());
   }
   else
   {
-    $this->setUserLog("create", "users", $user->getUserId());
+    $this->setUserLog("create", "NOMBRE_ELEMENTO", $user->getLLAVE_PRIMARIA());
   }
   $data["success"] = true;
   $data["title"] = _("Success");
@@ -322,19 +299,19 @@ Eliminar un elemento
  * 
  * @return void
  */
-public function delete_user()
+public function METODO_ELIMINAR()
 {
-  $this->check_permissions("delete", "users");
+  $this->check_permissions("delete", "NOMBRE_ELEMENTO");
   $data = Array("deleted" => false);
   if(empty($_POST["id"]))
   {
     $this->json($data);
     return;
   }
-  $user = usersModel::find($_POST["id"]);
-  $affected = $user->delete();
+  $elemento = MODELO_ELEMENTO::find($_POST["id"]);
+  $affected = $elemento->delete();
   $data["deleted"] = $affected > 0;
-  $this->setUserLog("delete", "users", $user->getUserId());
+  $this->setUserLog("delete", "users", $user->getLLAVE_PRIMARIA());
   $this->json($data);
 }
 ```
